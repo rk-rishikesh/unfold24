@@ -31,6 +31,7 @@ const DashboardPage = () => {
   }, [remainingTime]);
 
   const handleMintCardClick = () => {
+    rollDiceAndMove()
     setRemainingTime(10);
     setShowMintCard(false);
     setShowCardDetails(true);
@@ -222,34 +223,7 @@ const DashboardPage = () => {
         ref={mapContainerRef}
       />
       <GamingTokenDisplay />
-      <button
-        onClick={rollDiceAndMove}
-        style={{
-          position: "absolute",
-          top: "120px",
-          left: "20px",
-          padding: "10px 20px",
-          backgroundColor: "blue",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-        }}
-      >
-        Roll Dice
-      </button>
-      <div
-        style={{
-          position: "absolute",
-          top: "180px",
-          left: "20px",
-          backgroundColor: "white",
-          padding: "10px",
-          borderRadius: "5px",
-          fontSize: "16px",
-        }}
-      >
-        Dice Roll: {diceRoll}
-      </div>
+
       <div
         style={{
           position: "absolute",
@@ -305,11 +279,13 @@ const DashboardPage = () => {
             right: "250px",
           }}
         >
-          <div className="w-60 h-80 bg-neutral-800 rounded-3xl text-neutral-300 p-4 flex flex-col items-start justify-center gap-3 hover:bg-gray-900 hover:shadow-2xl hover:shadow-sky-400 transition-shadow absolute">
-            <div className="w-52 h-36 bg-sky-300 rounded-2xl">
-              <img className="w-52 h-36 roundex-2xl" src={card.image}/>
+          <div style={{ backgroundImage: `url(${card.image})` }} className="bg-cover bg-center w-60 h-80 bg-neutral-800 rounded-3xl text-neutral-300 p-4 flex flex-col items-start justify-center gap-3 hover:bg-gray-900 hover:shadow-2xl hover:shadow-sky-400 transition-shadow absolute">
+            <div className="w-52 h-36 rounded-2xl" >
+
             </div>
-            <div className="">
+ 
+              
+            <div className="bottom-4 ">
               <p className="font-extrabold">{card.name}</p>
               <p className="">{card.description}</p>
             </div>

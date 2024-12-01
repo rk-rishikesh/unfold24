@@ -53,7 +53,7 @@ const data = {
         "type": "Traffic Jam",
         "name": "Traffic Jam of Banglore",
         "description": "You are stuck in traffic.",
-        "image": "/images/jail.jpg",
+        "image": "/images/traffic.jpg",
         "rent": 500
       },
     {
