@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GamingTokenDisplay from "./GamingTokenDisplay";
 import mapboxgl from "mapbox-gl";
+import data from "../data/cards";
 
 const DashboardPage = () => {
+
   const navigate = useNavigate();
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
@@ -14,8 +16,10 @@ const DashboardPage = () => {
   const [remainingTime, setRemainingTime] = useState(10);
   const [showMintCard, setShowMintCard] = useState(false);
   const [showCardDetails, setShowCardDetails] = useState(false);
+  const [card, setCard] = useState();
 
   useEffect(() => {
+    setCard(data.cards[diceRoll])
     if (remainingTime > 0) {
       const timer = setInterval(() => {
         setRemainingTime((prev) => prev - 1);
@@ -302,14 +306,16 @@ const DashboardPage = () => {
           }}
         >
           <div className="w-60 h-80 bg-neutral-800 rounded-3xl text-neutral-300 p-4 flex flex-col items-start justify-center gap-3 hover:bg-gray-900 hover:shadow-2xl hover:shadow-sky-400 transition-shadow absolute">
-            <div className="w-52 h-40 bg-sky-300 rounded-2xl"></div>
-            <div className="">
-              <p className="font-extrabold">Card title</p>
-              <p className="">4 popular types of cards in UI design.</p>
+            <div className="w-52 h-36 bg-sky-300 rounded-2xl">
+              <img className="w-52 h-36 roundex-2xl" src={card.image}/>
             </div>
-            <button className="bg-sky-700 font-extrabold p-2 px-6 rounded-xl hover:bg-sky-500 transition-colors">
+            <div className="">
+              <p className="font-extrabold">{card.name}</p>
+              <p className="">{card.description}</p>
+            </div>
+            {/* <button className="bg-sky-700 font-extrabold p-2 px-6 rounded-xl hover:bg-sky-500 transition-colors">
               See more
-            </button>
+            </button> */}
           </div>
         </div>
       )}

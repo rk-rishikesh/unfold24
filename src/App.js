@@ -20,7 +20,6 @@ const App = () => {
     <Router>
       <OktoProvider apiKey={OKTO_CLIENT_API_KEY} buildType={BuildType.SANDBOX}>
         <Routes>
-          
           <Route path="/" element={<LandingPage setAuthToken={setAuthToken} authToken={authToken} handleLogout={handleLogout}/>} />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
