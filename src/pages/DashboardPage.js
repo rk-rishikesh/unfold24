@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import GamingTokenDisplay from "./GamingTokenDisplay";
+import { Coins, ShieldPlus } from "lucide-react";
 import mapboxgl from "mapbox-gl";
 import carddata from "../data/cards";
 import { ethers } from "ethers";
@@ -400,6 +400,7 @@ const DashboardPage = () => {
 
   const handleMintCardClick = async () => {
     const token = localStorage.getItem("authToken");
+    const address = localStorage.getItem("address");
     try {
       const headers = {
         Authorization: `Bearer ${token}`,
@@ -413,7 +414,7 @@ const DashboardPage = () => {
           body: JSON.stringify({
             network_name: "POLYGON_TESTNET_AMOY",
             transaction: {
-              from: "0xE8a3180dD5c7a6417bc7a82D2C9Db52e0E0a22a2",
+              from: address,
               to: "0xf5e491f0772d7dc4f9df91d8bec8642ab97b6de0",
               data: "0x82df5242",
               value: "0x",
@@ -644,19 +645,43 @@ const DashboardPage = () => {
       </div>
 
       <div
-        style={{
-          position: "absolute",
-          bottom: "40px",
-          backgroundColor: "white",
-          padding: "10px",
-          borderRadius: "5px",
-          fontSize: "16px",
-          left: "20px",
-          width: "20%",
-          height: "30%",
-        }}
+        className="absolute bottom-10 left-5 
+        bg-gradient-to-br from-indigo-800 to-purple-900 
+        text-white 
+        p-4 
+        rounded-xl 
+        shadow-2xl 
+        border-2 
+        border-yellow-500 
+        w-1/5 
+        h-auto 
+        min-h-[150px]
+        flex 
+        flex-col 
+        space-y-4 
+        transform 
+        transition-all 
+        hover:scale-105 
+        hover:shadow-3xl"
       >
-        bal: {bal}
+        <div className="flex justify-between items-center">
+          <div className="flex items-center space-x-2">
+            <Coins className="text-yellow-400 animate-bounce" size={32} />
+            <h2 className="text-2xl font-bold text-yellow-300 uppercase tracking-wider">
+              Balance
+            </h2>
+          </div>
+          <ShieldPlus className="text-green-400 animate-pulse" size={28} />
+        </div>
+
+        <div className="flex-grow flex items-center justify-center">
+          <div className="bg-indigo-700/50 rounded-lg p-3 w-full text-center">
+            <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-600">
+              {bal.toLocaleString()}
+            </span>
+            <span className="block text-sm text-gray-300 mt-1">Game Coins</span>
+          </div>
+        </div>
       </div>
       {!showMintCard && (
         <div
