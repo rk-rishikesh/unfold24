@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Coins, ShieldPlus } from "lucide-react";
+import { Coins, ShieldPlus, RefreshCw } from "lucide-react";
 import mapboxgl from "mapbox-gl";
 import carddata from "../data/cards";
+import GameLoader from "./GameLoader";
 import { ethers } from "ethers";
 import { useOkto } from "okto-sdk-react";
 import { Leaf, Target } from "lucide-react";
@@ -26,6 +27,7 @@ const DashboardPage = () => {
   const [activeSection, setActiveSection] = useState(null);
   const [data, setData] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Replace these with your contract details
   const RPC_URL =
@@ -402,6 +404,7 @@ const DashboardPage = () => {
     const token = localStorage.getItem("authToken");
     const address = localStorage.getItem("address");
     try {
+      setIsLoading(true);
       const headers = {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -415,8 +418,10 @@ const DashboardPage = () => {
             network_name: "POLYGON_TESTNET_AMOY",
             transaction: {
               from: address,
-              to: "0xf5e491f0772d7dc4f9df91d8bec8642ab97b6de0",
-              data: "0x82df5242",
+              to: "0xabEA0ddFaB46191967b46eC57732c2233e93715F",
+              data:
+                "0x55117385000000000000000000000000" +
+                address.toLowerCase().trim().slice(2),
               value: "0x",
             },
           }),
@@ -426,12 +431,14 @@ const DashboardPage = () => {
       // Check if the response is okay (status code 200-299)
       if (response.ok) {
         const data = await response.json();
-        console.log("API response:", data);
+        setIsLoading(false);
         // Handle the API response (for example, update state based on the response)
       } else {
+        setIsLoading(false);
         console.error("API error:", response.statusText);
       }
     } catch (error) {
+      setIsLoading(false);
       console.error("Error calling API:", error);
     }
 
@@ -621,6 +628,7 @@ const DashboardPage = () => {
 
   return (
     <div>
+      {isLoading && <GameLoader />}
       <div
         id="map"
         style={{ height: "100vh", width: "100%" }}
@@ -675,7 +683,13 @@ const DashboardPage = () => {
         </div>
 
         <div className="flex-grow flex items-center justify-center">
-          <div className="bg-indigo-700/50 rounded-lg p-3 w-full text-center">
+          <div className="bg-indigo-700/50 rounded-lg p-3 w-full text-center relative">
+            <button
+              onClick={() => readFromContract()}
+              className="absolute top-2 left-2 text-white hover:bg-indigo-600 rounded-full p-1 transition-colors"
+            >
+              <RefreshCw size={16} />
+            </button>
             <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-600">
               {bal.toLocaleString()}
             </span>

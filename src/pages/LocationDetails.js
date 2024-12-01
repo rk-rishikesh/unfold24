@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  ChevronLeft,
-  Glasses,
-  Gamepad2,
-  Headphones,
-  Trophy,
-  ArrowRight,
-} from "lucide-react";
+import { ChevronLeft, Glasses, Gamepad2, Trophy } from "lucide-react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 
 const LocationDetails = () => {
