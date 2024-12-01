@@ -241,7 +241,7 @@ const DashboardPage = () => {
       </div>
       {!showMintCard && (
         <div
-          class="explore"
+          className="explore"
           style={{
             position: "absolute",
             bottom: "40px",
@@ -257,7 +257,7 @@ const DashboardPage = () => {
       )}
       {showMintCard && (
         <div
-          class="explore"
+          className="explore"
           style={{
             position: "absolute",
             bottom: "40px",
