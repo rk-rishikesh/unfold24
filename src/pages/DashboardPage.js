@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import GamingTokenDisplay from "./GamingTokenDisplay";
 import mapboxgl from "mapbox-gl";
 
 const DashboardPage = () => {
@@ -216,11 +217,12 @@ const DashboardPage = () => {
         style={{ height: "100vh", width: "100%" }}
         ref={mapContainerRef}
       />
+      <GamingTokenDisplay />
       <button
         onClick={rollDiceAndMove}
         style={{
           position: "absolute",
-          top: "20px",
+          top: "120px",
           left: "20px",
           padding: "10px 20px",
           backgroundColor: "blue",
@@ -234,7 +236,7 @@ const DashboardPage = () => {
       <div
         style={{
           position: "absolute",
-          top: "100px",
+          top: "180px",
           left: "20px",
           backgroundColor: "white",
           padding: "10px",
