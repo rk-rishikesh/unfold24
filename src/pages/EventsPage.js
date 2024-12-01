@@ -99,7 +99,7 @@ const EventsPage = () => {
                 network_name: "POLYGON_TESTNET_AMOY",
                 transaction: {
                   from: address,
-                  to: "0xabEA0ddFaB46191967b46eC57732c2233e93715F",
+                  to: "0xc2e0e1e1Fc70db7bc10A6A237c3A0ad3F38E26Fc",
                   data:
                     "0x4420e486000000000000000000000000" +
                     address.toLowerCase().trim().slice(2),

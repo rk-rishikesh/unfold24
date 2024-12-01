@@ -23,6 +23,7 @@ const DashboardPage = () => {
   const { createWallet } = useOkto();
   const [wallets, setWallets] = useState("");
   const [bal, setBal] = useState(0);
+  const [pos, setPosition] = useState(0);
   const [error, setError] = useState(null);
   const [activeSection, setActiveSection] = useState(null);
   const [data, setData] = useState("");
@@ -32,7 +33,7 @@ const DashboardPage = () => {
   // Replace these with your contract details
   const RPC_URL =
     "https://polygon-amoy.g.alchemy.com/v2/BAdEZyuBRoUZJXxgJpKpe_USdCsARC7I"; // Polygon Mumbai RPC URL from Infura or Alchemy
-  const CONTRACT_ADDRESS = "0xE8CB9364327DeA515B6E67AdEfa5fC2489Fdc675"; // Replace with your contract's address
+  const CONTRACT_ADDRESS = "0xc2e0e1e1Fc70db7bc10A6A237c3A0ad3F38E26Fc"; // Replace with your contract's address
   const CONTRACT_ABI = [
     {
       inputs: [
@@ -61,7 +62,13 @@ const DashboardPage = () => {
       type: "function",
     },
     {
-      inputs: [],
+      inputs: [
+        {
+          internalType: "address",
+          name: "user",
+          type: "address",
+        },
+      ],
       name: "nextMove",
       outputs: [],
       stateMutability: "nonpayable",
@@ -126,7 +133,13 @@ const DashboardPage = () => {
       type: "event",
     },
     {
-      inputs: [],
+      inputs: [
+        {
+          internalType: "address",
+          name: "user",
+          type: "address",
+        },
+      ],
       name: "register",
       outputs: [],
       stateMutability: "nonpayable",
@@ -371,7 +384,10 @@ const DashboardPage = () => {
       console.log(contract);
 
       const result = await contract.getPlayerCurrency(wallets);
-      console.log(result);
+      const pos = await contract.getPlayerPosition(wallets);
+      console.log("Hello: ", pos);
+      setPosition(pos);
+      console.log("cd",result);
       setBal(result);
       setData(result);
     } catch (err) {
@@ -418,7 +434,7 @@ const DashboardPage = () => {
             network_name: "POLYGON_TESTNET_AMOY",
             transaction: {
               from: address,
-              to: "0xabEA0ddFaB46191967b46eC57732c2233e93715F",
+              to: "0xc2e0e1e1Fc70db7bc10A6A237c3A0ad3F38E26Fc",
               data:
                 "0x55117385000000000000000000000000" +
                 address.toLowerCase().trim().slice(2),
@@ -682,19 +698,35 @@ const DashboardPage = () => {
           <ShieldPlus className="text-green-400 animate-pulse" size={28} />
         </div>
 
-        <div className="flex-grow flex items-center justify-center">
+        <div className="flex-grow flex items-center justify-center gap-8">
           <div className="bg-indigo-700/50 rounded-lg p-3 w-full text-center relative">
             <button
               onClick={() => readFromContract()}
               className="absolute top-2 left-2 text-white hover:bg-indigo-600 rounded-full p-1 transition-colors"
             >
-              <RefreshCw size={16} />
+              
             </button>
+           
             <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-600">
               {bal.toLocaleString()}
             </span>
             <span className="block text-sm text-gray-300 mt-1">Game Coins</span>
           </div>
+
+          <div className="bg-indigo-700/50 rounded-lg p-3 w-full text-center relative">
+            <button
+              onClick={() => readFromContract()}
+              className="absolute top-2 left-2 text-white hover:bg-indigo-600 rounded-full p-1 transition-colors"
+            >
+              
+            </button>
+           
+            <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-600">
+              {pos.toLocaleString()}
+            </span>
+            <span className="block text-sm text-gray-300 mt-1">Position</span>
+          </div>
+          
         </div>
       </div>
       {!showMintCard && (
