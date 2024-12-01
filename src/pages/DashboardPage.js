@@ -10,7 +10,7 @@ const DashboardPage = () => {
   const [playerLocation, setPlayerLocation] = useState(0);
   const [diceRoll, setDiceRoll] = useState(0);
   const [rolling, setRolling] = useState(false);
-  const [remainingTime, setRemainingTime] = useState(100);
+  const [remainingTime, setRemainingTime] = useState(10);
   const [showMintCard, setShowMintCard] = useState(false);
   const [showCardDetails, setShowCardDetails] = useState(false);
 
@@ -26,6 +26,7 @@ const DashboardPage = () => {
   }, [remainingTime]);
 
   const handleMintCardClick = () => {
+    setRemainingTime(10)
     setShowMintCard(false);
     setShowCardDetails(true);
   };
@@ -292,66 +293,58 @@ const DashboardPage = () => {
       >
         card details
       </div>
-      <div
-        style={{
-          position: "absolute",
-          bottom: "120px",
-          right: "20px",
-          backgroundColor: "white",
-          padding: "10px",
-          borderRadius: "5px",
-          fontSize: "16px",
-        }}
-      >
-        Next Chance In: {Math.floor(remainingTime / 60)}:
-        {String(remainingTime % 60).padStart(2, "0")}
-      </div>
-      {showMintCard && (
+      {!showMintCard && (
         <div
+          class="explore"
           style={{
             position: "absolute",
-            bottom: "50px",
+            bottom: "40px",
             right: "20px",
-            backgroundColor: "white",
             padding: "10px",
             borderRadius: "5px",
             fontSize: "16px",
-            cursor: "pointer",
+          }}
+        >
+          Next Chance In: {Math.floor(remainingTime / 60)}:
+          {String(remainingTime % 60).padStart(2, "0")}
+        </div>
+      )}
+      {showMintCard && (
+        <div
+          class="explore"
+          style={{
+            position: "absolute",
+            bottom: "40px",
+            right: "20px",
+            padding: "10px",
+            borderRadius: "5px",
+            fontSize: "16px",
           }}
           onClick={handleMintCardClick}
         >
-          MINT Card
+          MAKE MOVE
         </div>
       )}
       {showCardDetails && (
         <div
           style={{
             position: "absolute",
-            bottom: "200px",
-            right: "20px",
-            backgroundColor: "white",
-            padding: "10px",
-            borderRadius: "5px",
-            fontSize: "16px",
+            bottom: "450px",
+            right: "250px",
           }}
         >
-          Card Details
+         <div className="w-60 h-80 bg-neutral-800 rounded-3xl text-neutral-300 p-4 flex flex-col items-start justify-center gap-3 hover:bg-gray-900 hover:shadow-2xl hover:shadow-sky-400 transition-shadow absolute">
+  <div className="w-52 h-40 bg-sky-300 rounded-2xl"></div>
+  <div className="">
+      <p className="font-extrabold">Card title</p>
+      <p className="">4 popular types of cards in UI design.</p>
+  </div>
+  <button className="bg-sky-700 font-extrabold p-2 px-6 rounded-xl hover:bg-sky-500 transition-colors">See more</button>
+</div>
         </div>
-      )}
+       
 
-      <div
-        style={{
-          position: "absolute",
-          bottom: "200px",
-          right: "20px",
-          backgroundColor: "white",
-          padding: "10px",
-          borderRadius: "5px",
-          fontSize: "16px",
-        }}
-      >
-        Card Details
-      </div>
+      )}
     </div>
   );
 };

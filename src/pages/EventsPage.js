@@ -152,7 +152,7 @@ const EventsPage = () => {
       <img
         src="/images/mono.png"
         alt="Man Standing"
-        className="absolute bottom-0 left-0 w-40 sm:w-64 h-[30rem] sm:h-[48rem] transform scale-75"
+        className="absolute bottom-0 left-0 w-[80%] sm:w-80 h-[30rem] sm:h-[48rem] transform scale-1"
       />
     </div>
   );

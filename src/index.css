@@ -17,13 +17,11 @@ code {
 }
 
 /* Button CSS */
-
-/* From Uiverse.io by Smit-Prajapati */ 
-.buttonexplore {
+.explore {
   /* in scss with just one variable i can change opacity with rgba(variable, opacity) but in css it's not possible so i have used three seperate variables */
   /* with hue-rotate color can be changed */
-  --main-color: rgb(179, 132, 23);
-  --main-bg-color: rgba(213, 207, 46, 0.36);
+  --main-color: rgb(46, 213, 115);
+  --main-bg-color: rgba(46, 213, 116, 0.36);
   --pattern-color: rgba(46, 213, 116, 0.073);
 
   /* change this rotation value */
@@ -31,7 +29,7 @@ code {
 
   cursor: pointer;
   text-transform: uppercase;
-  letter-spacing: 0.5rem;
+  letter-spacing: 0.3rem;
   background: radial-gradient(
       circle,
       var(--main-bg-color) 0%,
@@ -61,12 +59,13 @@ code {
   transition: background-size 0.2s ease-in-out;
 }
 
-.buttonexplore:hover {
+.explore:hover {
   background-size:
     cover,
     10px 10px,
     10px 10px;
 }
-.buttonexplore:active {
+.explore:active {
   filter: hue-rotate(250deg);
 }
+
