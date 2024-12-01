@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
 
-const MapboxExample = () => {
+const DashboardPage = () => {
+  const navigate = useNavigate();
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const playerMarkerRef = useRef(null);
@@ -29,128 +30,96 @@ const MapboxExample = () => {
     setShowCardDetails(true);
   };
 
-  const generateRandomCoordinates = (baseLng, baseLat, range = 0.0005) => {
-    const randomLng = baseLng + (Math.random() - 0.5) * range;
-    const randomLat = baseLat + (Math.random() - 0.5) * range;
-    return [randomLng, randomLat];
-  };
-
-  const baseLng = 77.75;
-  const baseLat = 12.9698;
   const monopolyLocations = [
     {
-      type: "house",
-      name: "MG Road",
-      details: "A popular street",
-      coordinates: [77.619, 12.9742],
+      type: "railway",
+      name: "Whitefield Railway Station",
+      details: "Connects Whitefield to major cities.",
+      coordinates: [77.7508, 12.9697],
     },
     {
-      type: "road",
-      name: "Brigade Road",
-      details: "Bustling shopping area",
-      coordinates: [77.6114, 12.9739],
-    },
-    {
-      type: "city",
-      name: "UB City",
-      details: "Luxury commercial complex",
-      coordinates: [77.5952, 12.9719],
-    },
-    {
-      type: "area",
-      name: "Koramangala",
-      details: "Residential & commercial area",
-      coordinates: [77.6245, 12.9352],
-    },
-    {
-      type: "area",
-      name: "Whitefield",
-      details: "IT hub & residential area",
-      coordinates: [77.7499, 12.9698],
-    },
-    {
-      type: "area",
-      name: "Indiranagar",
-      details: "Trendy neighborhood",
-      coordinates: [77.6408, 12.9716],
-    },
-    {
-      type: "area",
-      name: "Jayanagar",
-      details: "Historic neighborhood",
-      coordinates: [77.5938, 12.926],
-    },
-    {
-      type: "brewery",
-      name: "Toit Brewery",
-      details: "Famous brewery",
-      coordinates: [77.64, 12.9791],
-    },
-    {
-      type: "pub",
-      name: "Social",
-      details: "Popular hangout spot",
-      coordinates: [77.5946, 12.9718],
-    },
-    {
-      type: "market",
-      name: "Chikpet",
-      details: "Traditional marketplace",
-      coordinates: [77.5733, 12.967],
-    },
-    {
-      type: "landmark",
-      name: "Bangalore Palace",
-      details: "Historic palace",
-      coordinates: [77.5922, 12.9987],
-    },
-    {
-      type: "landmark",
-      name: "Vidhana Soudha",
-      details: "State legislature building",
-      coordinates: [77.5908, 12.9794],
+      type: "railway",
+      name: "KR Puram Railway Station",
+      details: "A prominent railway station near Whitefield.",
+      coordinates: [77.6835, 12.9916],
     },
     {
       type: "club",
-      name: "Loft 38",
-      details: "Popular club",
-      coordinates: [77.6436, 12.9653],
+      name: "Prestige Ozone Clubhouse",
+      details: "A luxurious clubhouse for recreation.",
+      coordinates: [77.7492, 12.9605],
     },
     {
-      type: "brewery",
-      name: "Byg Brewski",
-      details: "Brewery & restaurant",
-      coordinates: [77.6444, 13.0095],
+      type: "club",
+      name: "Whitefield Club",
+      details: "A popular gathering place in Whitefield.",
+      coordinates: [77.7425, 12.9758],
     },
     {
-      type: "pub",
-      name: "Church Street Social",
-      details: "Trendy pub",
-      coordinates: [77.6083, 12.9756],
+      type: "utility",
+      name: "BESCOM Utility Office",
+      details: "Electricity utility service provider.",
+      coordinates: [77.7504, 12.9672],
     },
     {
-      type: "museum",
-      name: "Central Jail Museum",
-      details: "Historical site",
-      coordinates: [77.5913, 12.9724],
+      type: "utility",
+      name: "Whitefield Water Supply Office",
+      details: "Local water supply management office.",
+      coordinates: [77.7531, 12.968],
     },
     {
-      type: "prison",
-      name: "Parappana Agrahara Central Prison",
-      details: "Modern jail",
-      coordinates: [77.6452, 12.8671],
+      type: "house",
+      name: "Prestige Shantiniketan",
+      details: "A premium residential township.",
+      coordinates: [77.7252, 12.9926],
     },
     {
-      type: "bank",
-      name: "State Bank of India (MG Road Branch)",
-      details: "Historic bank branch",
-      coordinates: [77.6174, 12.974],
+      type: "house",
+      name: "Brigade Cosmopolis",
+      details: "Luxurious apartments in Whitefield.",
+      coordinates: [77.7412, 12.9743],
     },
     {
-      type: "bank",
-      name: "Canara Bank Headquarters",
-      details: "Major banking HQ",
-      coordinates: [77.593, 12.975],
+      type: "house",
+      name: "Sobha Dream Acres",
+      details: "Modern housing complex with excellent amenities.",
+      coordinates: [77.7518, 12.9589],
+    },
+    {
+      type: "house",
+      name: "Godrej Air NXT",
+      details: "Green housing property with eco-friendly features.",
+      coordinates: [77.7399, 12.9661],
+    },
+    {
+      type: "jail",
+      name: "Marathahalli Police Station",
+      details: "Facility for detaining suspects.",
+      coordinates: [77.6992, 12.9485],
+    },
+    {
+      type: "jail",
+      name: "Whitefield Police Station",
+      details: "Provides security and justice in Whitefield.",
+      coordinates: [77.752, 12.9674],
+    },
+    {
+      type: "landmark",
+      name: "Forum Shantiniketan Mall",
+      details: "Popular shopping and leisure destination.",
+      coordinates: [77.726, 12.9924],
+    },
+    {
+      type: "landmark",
+      name: "International Tech Park Bangalore (ITPB)",
+      details: "One of the largest IT parks in Bangalore.",
+      coordinates: [77.7375, 12.9906],
+    },
+    {
+      type: "market",
+      name: "Inorbit Mall Whitefield",
+      details: "A vibrant shopping and entertainment destination.",
+      coordinates: [77.7356, 12.9699],
     },
   ];
 
@@ -186,7 +155,7 @@ const MapboxExample = () => {
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
       center: monopolyLocations[playerLocation].coordinates,
-      zoom: 25,
+      zoom: 16.5,
       pitch: 40,
       bearing: 53,
       style: "mapbox://styles/mapbox/standard",
@@ -212,23 +181,22 @@ const MapboxExample = () => {
         .setLngLat(location.coordinates)
         .addTo(mapRef.current);
 
-      // Create a popup and associate it with the marker
-      const popup = new mapboxgl.Popup({ offset: 25 }) // Set offset if needed
-        .setHTML(` 
-          <h3>${location.name}</h3>
+      const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
+          <h3 style="cursor:pointer; color:blue;" id="location-${location.name}">
+            ${location.name}
+          </h3>
           <p>${location.details}</p>
         `);
 
-      // Attach the popup to the marker
       marker.setPopup(popup);
-
-      // Optional: you can also open the popup automatically when the marker is clicked
       marker.getElement().addEventListener("click", () => {
-        marker.togglePopup(); // Toggle pop-up on click
+        marker.togglePopup();
+        navigate(`/location/${location.name}`, {
+          state: { location },
+        });
       });
     });
 
-    // Cleanup on component unmount
     return () => {
       if (mapRef.current) {
         mapRef.current.remove();
@@ -237,15 +205,13 @@ const MapboxExample = () => {
   }, []);
 
   useEffect(() => {
-    // Move the player marker to the new location after the dice roll
     if (playerMarkerRef.current) {
       playerMarkerRef.current.setLngLat(
         monopolyLocations[playerLocation].coordinates
       );
     }
-  }, [playerLocation]); // Re-run the effect when playerLocation changes
+  }, [playerLocation]);
 
-  // Helper function to create custom marker elements based on the place type
   const createCustomMarkerElement = (placeType) => {
     const markerElement = document.createElement("div");
     markerElement.style.width = "30px";
@@ -253,16 +219,25 @@ const MapboxExample = () => {
     markerElement.style.borderRadius = "50%";
     markerElement.style.backgroundSize = "cover";
 
+    // Match these keys with your monopolyLocations types
     const icons = {
-      cafe: "/images/cafe.png",
-      bus: "/images/jail.png",
-      school: "/images/hospital.png",
-      temple: "https://example.com/icons/temple-icon.png",
-      powerhouse: "https://example.com/icons/powerhouse-icon.png",
-      library: "https://example.com/icons/library-icon.png",
+      jail: "/images/jail.png",
+      road: "/images/road.png",
+      city: "/images/city.png",
+      area: "/images/area.png",
+      brewery: "/images/brewery.png",
+      pub: "/images/pub.png",
+      market: "/images/market.png",
+      landmark: "/images/landmark.png",
+      club: "/images/club.png",
+      museum: "/images/museum.png",
+      prison: "/images/prison.png",
+      bank: "/images/bank.png",
     };
 
-    markerElement.style.backgroundImage = `url('${icons[placeType]}')`;
+    const iconUrl = icons[placeType] || "/images/user.png";
+
+    markerElement.style.backgroundImage = `url('${iconUrl}')`;
 
     return markerElement;
   };
@@ -381,4 +356,4 @@ const MapboxExample = () => {
   );
 };
 
-export default MapboxExample;
+export default DashboardPage;
