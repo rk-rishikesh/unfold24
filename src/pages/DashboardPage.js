@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GamingTokenDisplay from "./GamingTokenDisplay";
 import mapboxgl from "mapbox-gl";
-import data from "../data/cards";
+import carddata from "../data/cards";
+import { ethers } from "ethers";
+import { useOkto } from "okto-sdk-react";
+import { Leaf, Target } from "lucide-react";
 
 const DashboardPage = () => {
-
   const navigate = useNavigate();
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
@@ -17,9 +19,373 @@ const DashboardPage = () => {
   const [showMintCard, setShowMintCard] = useState(false);
   const [showCardDetails, setShowCardDetails] = useState(false);
   const [card, setCard] = useState();
+  const { createWallet } = useOkto();
+  const [wallets, setWallets] = useState("");
+  const [bal, setBal] = useState(0)
+  const [error, setError] = useState(null);
+  const [activeSection, setActiveSection] = useState(null);
+  const [data, setData] = useState("");
+  const [loading, setLoading] = useState(false);
+  
+  // Replace these with your contract details
+  const RPC_URL = "https://polygon-amoy.g.alchemy.com/v2/BAdEZyuBRoUZJXxgJpKpe_USdCsARC7I"; // Polygon Mumbai RPC URL from Infura or Alchemy
+  const CONTRACT_ADDRESS = "0xE8CB9364327DeA515B6E67AdEfa5fC2489Fdc675"; // Replace with your contract's address
+  const CONTRACT_ABI = [
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "loanAmount",
+          type: "uint256",
+        },
+      ],
+      name: "getLoan",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "hotspotAmount",
+          type: "uint256",
+        },
+      ],
+      name: "hotspotBenefit",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "nextMove",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "address",
+          name: "player",
+          type: "address",
+        },
+      ],
+      name: "PlayerJailed",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "address",
+          name: "player",
+          type: "address",
+        },
+      ],
+      name: "PlayerRegistered",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "address",
+          name: "player",
+          type: "address",
+        },
+      ],
+      name: "PropertiesSeized",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "address",
+          name: "player",
+          type: "address",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "cardId",
+          type: "uint256",
+        },
+      ],
+      name: "PropertyPurchased",
+      type: "event",
+    },
+    {
+      inputs: [],
+      name: "register",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "address",
+          name: "tenant",
+          type: "address",
+        },
+        {
+          indexed: true,
+          internalType: "address",
+          name: "landlord",
+          type: "address",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "amount",
+          type: "uint256",
+        },
+      ],
+      name: "RentPaid",
+      type: "event",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      name: "gameCards",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "cardId",
+          type: "uint256",
+        },
+        {
+          internalType: "address",
+          name: "owner",
+          type: "address",
+        },
+        {
+          internalType: "bool",
+          name: "isOwned",
+          type: "bool",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "playerAddress",
+          type: "address",
+        },
+      ],
+      name: "getPlayerCards",
+      outputs: [
+        {
+          internalType: "uint256[]",
+          name: "",
+          type: "uint256[]",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "playerAddress",
+          type: "address",
+        },
+      ],
+      name: "getPlayerCurrency",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "playerAddress",
+          type: "address",
+        },
+      ],
+      name: "getPlayerPosition",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "JAIL_FINE",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "MAX_BOARD_SPACES",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
+      ],
+      name: "players",
+      outputs: [
+        {
+          internalType: "address",
+          name: "playerAddress",
+          type: "address",
+        },
+        {
+          internalType: "uint256",
+          name: "currentPosition",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256",
+          name: "currencyPoints",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "PROPERTY_PRICE",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      name: "RENT_PRICES",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "STARTING_BALANCE",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+  ];
+
+  const fetchWallets = async () => {
+    try {
+      const walletsData = await createWallet();
+      console.log(walletsData.wallets[0].address);
+      setWallets(walletsData.wallets[0].address);
+      setActiveSection("wallets");
+    } catch (error) {
+      setError(`Failed to fetch wallets: ${error.message}`);
+    }
+  };
+
+  const readFromContract = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Connect to the Polygon Mumbai Testnet using ethers
+      const provider = new ethers.JsonRpcProvider(RPC_URL);
+      const contract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        CONTRACT_ABI,
+        provider
+      );
+      console.log(contract)
+
+      const result = await contract.getPlayerCurrency(wallets);
+      console.log(result)
+      setBal(result)
+      setData(result);
+    } catch (err) {
+      console.error("Error reading from contract:", err);
+      setError("Failed to fetch data from the contract.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setCard(data.cards[diceRoll])
+    fetchWallets();
+    readFromContract();
+  }, []);
+
+  useEffect(() => {
+    setCard(carddata.cards[diceRoll]);
     if (remainingTime > 0) {
       const timer = setInterval(() => {
         setRemainingTime((prev) => prev - 1);
@@ -31,7 +397,7 @@ const DashboardPage = () => {
   }, [remainingTime]);
 
   const handleMintCardClick = () => {
-    rollDiceAndMove()
+    rollDiceAndMove();
     setRemainingTime(10);
     setShowMintCard(false);
     setShowCardDetails(true);
@@ -222,7 +588,24 @@ const DashboardPage = () => {
         style={{ height: "100vh", width: "100%" }}
         ref={mapContainerRef}
       />
-      <GamingTokenDisplay />
+      {/* <GamingTokenDisplay /> */}
+      <div className="absolute top-4 left-5 bg-gradient-to-br from-green-800 to-emerald-900 text-lime-100 p-4 rounded-xl shadow-lg border-2 border-green-500">
+        <div className="flex items-center space-x-4">
+          <Leaf className="w-10 h-10 text-green-300 animate-bounce" />
+          <div className="flex flex-col">
+            <span className="text-xs uppercase tracking-widest text-green-200 opacity-80">
+              Game Zone Token
+            </span>
+            <code className="text-md font-mono bg-green-900/50 px-3 py-2 rounded-md tracking-wider border border-green-600">
+              {wallets}
+            </code>
+          </div>
+          <Target className="w-10 h-10 text-lime-400 animate-spin" />
+        </div>
+        <div className="absolute -top-2 -right-2 bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
+          🎮
+        </div>
+      </div>
 
       <div
         style={{
@@ -237,7 +620,7 @@ const DashboardPage = () => {
           height: "30%",
         }}
       >
-        card details
+        bal: {bal}
       </div>
       {!showMintCard && (
         <div
@@ -279,12 +662,12 @@ const DashboardPage = () => {
             right: "250px",
           }}
         >
-          <div style={{ backgroundImage: `url(${card.image})` }} className="bg-cover bg-center w-60 h-80 bg-neutral-800 rounded-3xl text-neutral-300 p-4 flex flex-col items-start justify-center gap-3 hover:bg-gray-900 hover:shadow-2xl hover:shadow-sky-400 transition-shadow absolute">
-            <div className="w-52 h-36 rounded-2xl" >
+          <div
+            style={{ backgroundImage: `url(${card.image})` }}
+            className="bg-cover bg-center w-60 h-80 bg-neutral-800 rounded-3xl text-neutral-300 p-4 flex flex-col items-start justify-center gap-3 hover:bg-gray-900 hover:shadow-2xl hover:shadow-sky-400 transition-shadow absolute"
+          >
+            <div className="w-52 h-36 rounded-2xl"></div>
 
-            </div>
- 
-              
             <div className="bottom-4 ">
               <p className="font-extrabold">{card.name}</p>
               <p className="">{card.description}</p>
