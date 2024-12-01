@@ -33,96 +33,67 @@ const DashboardPage = () => {
 
   const monopolyLocations = [
     {
-      type: "railway",
-      name: "Whitefield Railway Station",
-      details: "Connects Whitefield to major cities.",
-      coordinates: [77.7508, 12.9697],
+      type: "loc",
+      name: "Bengaluru Marriott Hotel Whitefield",
+      coordinates: [77.72850028345637, 12.979162217880553],
     },
     {
-      type: "railway",
-      name: "KR Puram Railway Station",
-      details: "A prominent railway station near Whitefield.",
-      coordinates: [77.6835, 12.9916],
+      type: "loc",
+      name: "Sri Sathya Sai Institute of Higher Medical Sciences",
+      coordinates: [77.72927102316055, 12.981543699078502],
     },
     {
-      type: "club",
-      name: "Prestige Ozone Clubhouse",
-      details: "A luxurious clubhouse for recreation.",
-      coordinates: [77.7492, 12.9605],
+      type: "loc",
+      name: "Optique",
+      coordinates: [77.72875864093628, 12.979551689963426],
+    },
+
+    {
+      type: "loc",
+      name: "Bank Of India",
+      coordinates: [77.73029243415138, 12.979057168410783],
+    },
+
+    {
+      type: "loc",
+      name: "TCS",
+      coordinates: [77.72758747094632, 12.97787570675477],
+    },
+
+    {
+      type: "loc",
+      name: "SEZ Bhavan",
+      coordinates: [77.72644614657483, 12.97986740928199],
+    },
+
+    {
+      type: "loc",
+      name: "New Udupi Delicacy Veg",
+      coordinates: [77.72704748905618, 12.98001557758769],
     },
     {
-      type: "club",
-      name: "Whitefield Club",
-      details: "A popular gathering place in Whitefield.",
-      coordinates: [77.7425, 12.9758],
+      type: "loc",
+      name: "Schneider Electric India Private Limited",
+      coordinates: [77.72848951096566, 12.985931001136603],
     },
     {
-      type: "utility",
-      name: "BESCOM Utility Office",
-      details: "Electricity utility service provider.",
-      coordinates: [77.7504, 12.9672],
+      type: "loc",
+      name: "Vydehi Girls Hostel",
+      coordinates: [77.7300684148707, 12.978039577664617],
     },
     {
-      type: "utility",
-      name: "Whitefield Water Supply Office",
-      details: "Local water supply management office.",
-      coordinates: [77.7531, 12.968],
+      type: "loc",
+      name: "Sowmya Residency",
+      coordinates: [77.73079510283848, 12.978516184123382],
     },
     {
-      type: "house",
-      name: "Prestige Shantiniketan",
-      details: "A premium residential township.",
-      coordinates: [77.7252, 12.9926],
-    },
-    {
-      type: "house",
-      name: "Brigade Cosmopolis",
-      details: "Luxurious apartments in Whitefield.",
-      coordinates: [77.7412, 12.9743],
-    },
-    {
-      type: "house",
-      name: "Sobha Dream Acres",
-      details: "Modern housing complex with excellent amenities.",
-      coordinates: [77.7518, 12.9589],
-    },
-    {
-      type: "house",
-      name: "Godrej Air NXT",
-      details: "Green housing property with eco-friendly features.",
-      coordinates: [77.7399, 12.9661],
-    },
-    {
-      type: "jail",
-      name: "Marathahalli Police Station",
-      details: "Facility for detaining suspects.",
-      coordinates: [77.6992, 12.9485],
-    },
-    {
-      type: "jail",
-      name: "Whitefield Police Station",
-      details: "Provides security and justice in Whitefield.",
-      coordinates: [77.752, 12.9674],
-    },
-    {
-      type: "landmark",
-      name: "Forum Shantiniketan Mall",
-      details: "Popular shopping and leisure destination.",
-      coordinates: [77.726, 12.9924],
-    },
-    {
-      type: "landmark",
-      name: "International Tech Park Bangalore (ITPB)",
-      details: "One of the largest IT parks in Bangalore.",
-      coordinates: [77.7375, 12.9906],
-    },
-    {
-      type: "market",
-      name: "Inorbit Mall Whitefield",
-      details: "A vibrant shopping and entertainment destination.",
-      coordinates: [77.7356, 12.9699],
+      type: "loc",
+      name: "Sowmya Residency",
+      coordinates: [77.73143029725426, 12.978578927153732],
     },
   ];
+
+  console.log(monopolyLocations);
 
   const rollDiceAndMove = () => {
     if (rolling) return;
@@ -225,26 +196,13 @@ const DashboardPage = () => {
     const markerElement = document.createElement("div");
     markerElement.style.width = "30px";
     markerElement.style.height = "30px";
-    markerElement.style.borderRadius = "50%";
     markerElement.style.backgroundSize = "cover";
 
-    // Match these keys with your monopolyLocations types
     const icons = {
-      jail: "/images/jail.png",
-      road: "/images/road.png",
-      city: "/images/city.png",
-      area: "/images/area.png",
-      brewery: "/images/brewery.png",
-      pub: "/images/pub.png",
-      market: "/images/market.png",
-      landmark: "/images/landmark.png",
-      club: "/images/club.png",
-      museum: "/images/museum.png",
-      prison: "/images/prison.png",
-      bank: "/images/bank.png",
+      loc: "/images/club.png",
     };
 
-    const iconUrl = icons[placeType] || "/images/user.png";
+    const iconUrl = icons[placeType] || "/images/mystery.png";
 
     markerElement.style.backgroundImage = `url('${iconUrl}')`;
 
