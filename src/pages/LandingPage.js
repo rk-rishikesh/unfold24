@@ -16,6 +16,7 @@ const LandingPage = ({ setAuthToken, authToken, handleLogout }) => {
       if (authResponse) {
         console.log("Authentication check: ", authResponse);
         setAuthToken(authResponse.auth_token);
+        localStorage.setItem("authToken", authResponse.auth_token);
         console.log("auth token received", authToken);
         navigate("/events");
       }
@@ -47,28 +48,26 @@ const LandingPage = ({ setAuthToken, authToken, handleLogout }) => {
           This is an example of a video background in React with Tailwind CSS.
         </p>
         {!authToken ? (
-            <div>
-
-                <a class="text-black items-center inline-flex bg-white border-2 border-black duration-200 ease-in-out focus:outline-none hover:bg-black hover:shadow-none hover:text-white justify-center rounded-xl shadow-[5px_5px_black] text-center transform transition w-full lg:px-8 lg:py-4 lg:text-4xl px-4 py-2" href="#">
-            
-          <GoogleLogin
-            onSuccess={handleGoogleLogin}
-            onError={(error) => {
-              console.log("Login Failed", error);
-            }}
-            useOneTap
-            promptMomentNotification={(notification) =>
-              console.log("Prompt moment notification:", notification)
-            }
-          />
-          </a>
+          <div>
+            <a
+              class="text-black items-center inline-flex bg-white border-2 border-black duration-200 ease-in-out focus:outline-none hover:bg-black hover:shadow-none hover:text-white justify-center rounded-xl shadow-[5px_5px_black] text-center transform transition w-full lg:px-8 lg:py-4 lg:text-4xl px-4 py-2"
+              href="#"
+            >
+              <GoogleLogin
+                onSuccess={handleGoogleLogin}
+                onError={(error) => {
+                  console.log("Login Failed", error);
+                }}
+                useOneTap
+                promptMomentNotification={(notification) =>
+                  console.log("Prompt moment notification:", notification)
+                }
+              />
+            </a>
           </div>
         ) : (
           <button onClick={onLogoutClick}>
-            <button class="explore">
-                Logout
-              
-              </button>
+            <button class="explore">Logout</button>
           </button>
         )}
       </div>

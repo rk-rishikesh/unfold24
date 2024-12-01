@@ -55,6 +55,72 @@ const EventsPage = () => {
           activeFilter === "active" ? event.isActive : !event.isActive
         );
 
+  const handleJoinNow = async () => {
+    const token = localStorage.getItem("authToken");
+    try {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
+      const response1 = await fetch(
+        "https://sandbox-api.okto.tech/api/v1/wallet",
+        {
+          method: "POST",
+          headers,
+        }
+      );
+
+      if (!response1.ok) {
+        throw new Error("First API call failed");
+      }
+
+      const data1 = await response1.json();
+
+      if (data1.status === "success") {
+        const wallet = data1.data.wallets.find(
+          (wallet) => wallet.network_name === "POLYGON_TESTNET_AMOY"
+        );
+
+        const address = wallet ? wallet.address : null;
+
+        localStorage.setItem("address", address);
+
+        if (address) {
+          const response2 = await fetch(
+            "https://sandbox-api.okto.tech/api/v1/rawtransaction/execute",
+            {
+              method: "POST",
+              headers,
+              body: JSON.stringify({
+                network_name: "POLYGON_TESTNET_AMOY",
+                transaction: {
+                  from: address,
+                  to: "0xf5e491f0772d7dc4f9df91d8bec8642ab97b6de0",
+                  data: "0x1aa3a008",
+                  value: "0x",
+                },
+              }),
+            }
+          );
+
+          if (!response2.ok) {
+            throw new Error("Second API call failed");
+          }
+
+          const data2 = await response2.json();
+          navigate(`/dashboard`);
+        }
+      } else {
+        console.warn(
+          "First API call did not meet the condition to trigger the second API."
+        );
+      }
+    } catch (error) {
+      console.error("Error during API calls:", error.message);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#0a0a2a] text-white overflow-hidden relative">
       <div
@@ -142,7 +208,7 @@ const EventsPage = () => {
               <div className="mt-auto">
                 {event.isActive ? (
                   <button
-                    onClick={() => navigate("/dashboard")}
+                    onClick={() => handleJoinNow()}
                     className="w-full py-3 rounded-lg bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition group relative overflow-hidden"
                   >
                     <span className="relative z-10">Join Now</span>

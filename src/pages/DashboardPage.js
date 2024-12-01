@@ -5,7 +5,6 @@ import mapboxgl from "mapbox-gl";
 import data from "../data/cards";
 
 const DashboardPage = () => {
-
   const navigate = useNavigate();
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
@@ -13,13 +12,13 @@ const DashboardPage = () => {
   const [playerLocation, setPlayerLocation] = useState(0);
   const [diceRoll, setDiceRoll] = useState(0);
   const [rolling, setRolling] = useState(false);
-  const [remainingTime, setRemainingTime] = useState(10);
+  const [remainingTime, setRemainingTime] = useState(5);
   const [showMintCard, setShowMintCard] = useState(false);
   const [showCardDetails, setShowCardDetails] = useState(false);
   const [card, setCard] = useState();
 
   useEffect(() => {
-    setCard(data.cards[diceRoll])
+    setCard(data.cards[diceRoll]);
     if (remainingTime > 0) {
       const timer = setInterval(() => {
         setRemainingTime((prev) => prev - 1);
@@ -30,8 +29,44 @@ const DashboardPage = () => {
     }
   }, [remainingTime]);
 
-  const handleMintCardClick = () => {
-    rollDiceAndMove()
+  const handleMintCardClick = async () => {
+    const token = localStorage.getItem("authToken");
+    try {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+      const response = await fetch(
+        "https://sandbox-api.okto.tech/api/v1/rawtransaction/execute",
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify({
+            network_name: "POLYGON_TESTNET_AMOY",
+            transaction: {
+              from: "0xE8a3180dD5c7a6417bc7a82D2C9Db52e0E0a22a2",
+              to: "0xf5e491f0772d7dc4f9df91d8bec8642ab97b6de0",
+              data: "0x82df5242",
+              value: "0x",
+            },
+          }),
+        }
+      );
+
+      // Check if the response is okay (status code 200-299)
+      if (response.ok) {
+        const data = await response.json();
+        console.log("API response:", data);
+        // Handle the API response (for example, update state based on the response)
+      } else {
+        console.error("API error:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error calling API:", error);
+    }
+
+    // Call your other functions after the API call
+    rollDiceAndMove();
     setRemainingTime(10);
     setShowMintCard(false);
     setShowCardDetails(true);
@@ -159,10 +194,9 @@ const DashboardPage = () => {
       .setLngLat(monopolyLocations[playerLocation].coordinates)
       .addTo(mapRef.current);
 
-    // Add custom markers for Monopoly locations and attach click events
     monopolyLocations.forEach((location, index) => {
       const marker = new mapboxgl.Marker({
-        element: createCustomMarkerElement(location.type), // Use the custom marker for each type of place
+        element: createCustomMarkerElement(location.type),
       })
         .setLngLat(location.coordinates)
         .addTo(mapRef.current);
@@ -279,19 +313,14 @@ const DashboardPage = () => {
             right: "250px",
           }}
         >
-          <div style={{ backgroundImage: `url(${card.image})` }} className="bg-cover bg-center w-60 h-80 bg-neutral-800 rounded-3xl text-neutral-300 p-4 flex flex-col items-start justify-center gap-3 hover:bg-gray-900 hover:shadow-2xl hover:shadow-sky-400 transition-shadow absolute">
-            <div className="w-52 h-36 rounded-2xl" >
-
+          <div
+            style={{ backgroundImage: `url(${card.image})` }}
+            className="bg-cover bg-center w-60 h-80 bg-neutral-800 rounded-3xl text-neutral-300 p-4 flex flex-col items-start justify-center gap-3 hover:bg-gray-900 hover:shadow-2xl hover:shadow-sky-400 transition-shadow absolute"
+          >
+            <div className="absolute bottom-0 left-0 w-full bg-opacity-60 p-3 rounded-b-3xl">
+              <p className="font-extrabold text-white">{card.name}</p>
+              <p className="text-neutral-300">{card.description}</p>
             </div>
- 
-              
-            <div className="bottom-4 ">
-              <p className="font-extrabold">{card.name}</p>
-              <p className="">{card.description}</p>
-            </div>
-            {/* <button className="bg-sky-700 font-extrabold p-2 px-6 rounded-xl hover:bg-sky-500 transition-colors">
-              See more
-            </button> */}
           </div>
         </div>
       )}
