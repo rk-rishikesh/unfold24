@@ -31,6 +31,7 @@ const DashboardPage = () => {
   const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showLoanCard, setShowLoanCard] = useState(false);
+  const [loan, setLoanAmt] = useState(0);
 
   const handleLoanClick = () => {
     setShowLoanCard(!showLoanCard);
@@ -598,7 +599,7 @@ const DashboardPage = () => {
           {
             role: "user",
             content:
-              "The player wants to use Bank to get loan, the max loan value is 500, the player has 1 property, how much loan can the player get based on the property count whose base value is 100 and rent 250. Just give me the final value in integers no text",
+              "Player visits bank and requests loan, the loan amount is max of 500, the player has 2 properties and can fetch rent upto 250, how much loan can the bank give. Give me integer value only no text",
           },
         ],
       };
@@ -622,6 +623,7 @@ const DashboardPage = () => {
       const data = await response.json();
       console.log(data.id);
       if (data && data.choices && data.choices[0]?.message?.content) {
+        setLoanAmt(data.choices[0]?.message?.content);
         setShowLoanCard(true);
       }
     } catch (error) {
@@ -711,10 +713,7 @@ const DashboardPage = () => {
                   >
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                   </svg>
-                  Loan Amount
-                </span>
-                <span className="text-yellow-300 font-bold text-xl">
-                  $50,000
+                  Loan Amount : {loan}
                 </span>
               </div>
               <div className="flex justify-between items-center">
