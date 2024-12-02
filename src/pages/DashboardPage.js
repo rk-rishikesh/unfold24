@@ -30,6 +30,11 @@ const DashboardPage = () => {
   const [data, setData] = useState("");
   const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showLoanCard, setShowLoanCard] = useState(false);
+
+  const handleLoanClick = () => {
+    setShowLoanCard(!showLoanCard);
+  };
 
   // Replace these with your contract details
   const RPC_URL =
@@ -672,21 +677,105 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      {bank && <div className="absolute top-24 left-5 max-w-[300px] p-2 bg-indigo-800 rounded-full items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex">
-        <span className="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">
+      <div
+        className="absolute top-28 left-5 max-w-[300px] p-2 bg-indigo-800 rounded-full items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex cursor-pointer"
+        onClick={handleLoanClick}
+      >
+        <span
+          className={`font-semibold mr-2 text-left flex-auto text-sm ${
+            !showLoanCard
+              ? "bg-indigo-500 rounded-full px-2 py-1 text-white"
+              : "text-indigo-100"
+          }`}
+        >
           BANK AI AGENT
         </span>
-        <span className="font-semibold mr-2 text-left flex-auto">
+        <span
+          className={`font-semibold mr-2 text-left flex-auto ${
+            showLoanCard
+              ? "bg-indigo-500 rounded-full px-2 py-1 text-white"
+              : "text-indigo-100"
+          }`}
+        >
           Loan Available
         </span>
         <svg
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
-          class="fill-current opacity-75 h-4 w-4"
+          className="fill-current opacity-75 h-4 w-4"
         >
           <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z"></path>
         </svg>
-      </div>}
+      </div>
+
+      {showLoanCard && (
+        <div className="absolute top-44 left-5 bg-gradient-to-br from-purple-800 to-indigo-900 shadow-2xl rounded-xl p-6 text-white border-4 border-yellow-400 transform transition-all duration-300 hover:scale-[1.02]">
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold text-yellow-300 tracking-wider uppercase">
+                Power-Up Loan
+              </h2>
+            </div>
+
+            <div className="space-y-2 bg-purple-900/50 rounded-lg p-4">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-300 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-yellow-400"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  </svg>
+                  Loan Amount
+                </span>
+                <span className="text-yellow-300 font-bold text-xl">
+                  $50,000
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-300 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-green-400"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  Interest Rate &nbsp;
+                </span>
+                <span className="text-green-300 font-bold text-xl">
+                  6.5% APR
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-4 flex space-x-2">
+            <button
+              className="text-center flex-1 bg-yellow-400 text-purple-900 py-3 rounded-lg font-bold hover:bg-yellow-500 transition-colors uppercase tracking-wider shadow-lg"
+              onClick={() => {
+                /* Add loan application logic */
+              }}
+            >
+              Accept
+            </button>
+            <button
+              className="text-center flex-1 bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition-colors uppercase tracking-wider shadow-lg"
+              onClick={handleLoanClick}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
 
       <div
         className="absolute bottom-10 left-5 
