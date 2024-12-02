@@ -54,7 +54,7 @@ const LandingPage = ({ setAuthToken, authToken, handleLogout }) => {
         {!authToken ? (
           <div className="mt-8">
             <a
-              className="inline-flex items-center justify-center bg-gradient-to-r from-[#F44336] via-[#ccd8f3] to-[#EF5350] text-white text-lg font-semibold rounded-xl shadow-xl px-8 py-4 transform transition duration-200 ease-in-out hover:bg-gradient-to-l hover:from-green-600 hover:via-blue-600 hover:to-purple-600 hover:scale-105"
+              className="inline-flex items-center justify-center bg-gradient-to-r from-[#F44336] via-[#ccd8f3] to-[#EF5350] text-white text-lg font-semibold rounded-xl shadow-xl px-8 py-4 transform transition duration-200 ease-in-out hover:scale-105"
               href="#"
             >
               <GoogleLogin
