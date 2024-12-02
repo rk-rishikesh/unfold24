@@ -10,7 +10,7 @@ const EventsPage = () => {
   const events = [
     {
       id: 1,
-      name: "Monopoly Mania",
+      name: "Banglore Mania",
       isActive: true,
       category: "Gaming",
       description:
@@ -18,33 +18,33 @@ const EventsPage = () => {
       participants: 100,
       prize: "$500 Cash",
       imgUrl: "/images/bang.jpg",
-      fee: 200,
+      fee: 100,
       maxParticipants: 100,
     },
     {
       id: 2,
-      name: "Boardwalk Blitz",
+      name: "Bombay Blitz",
       isActive: false,
       category: "Learning",
       description:
         "A thrilling race to dominate the board and claim victory before your opponents",
       participants: 10,
       prize: "",
-      imgUrl: "/images/delhi.jpg",
-      fee: 400,
+      imgUrl: "/images/mumbai.jpg",
+      fee: 100,
       maxParticipants: 100,
     },
     {
       id: 3,
-      name: "Monopoly Legends",
+      name: "Delhi Delight",
       isActive: false,
       category: "Community",
       description:
         "A legendary showdown to crown the greatest Monopoly player of all time",
       participants: 4,
       prize: "",
-      imgUrl: "/images/mumbai.jpg",
-      fee: 500,
+      imgUrl: "/images/delhi.jpg",
+      fee: 100,
       maxParticipants: 100,
     },
   ];
@@ -152,11 +152,10 @@ const EventsPage = () => {
         <div className="w-full flex flex-col justify-center items-center relative z-10 px-4 sm:px-6 lg:px-12 py-6 md:py-12">
           <div className="text-center mb-8 md:mb-10">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 mb-4 drop-shadow-[0_0_10px_rgba(99,102,241,0.5)]">
-              Ultimate Gaming Showdown
+              Dive into the Adventure
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-blue-200 max-w-2xl mx-auto opacity-80">
-              Conquer Challenging Quests, Unlock Epic Rewards, and Dominate the
-              Gaming Arena Like Never Before
+              Outplay, Outscore, and Outshine the Competition!
             </p>
           </div>
 
@@ -222,7 +221,7 @@ const EventsPage = () => {
                       onClick={() => handleJoinNow()}
                       className="w-full py-3 rounded-lg bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition group relative overflow-hidden"
                     >
-                      <span className="relative z-10">Join Now</span>
+                      <span className="relative z-10">Enter</span>
                       <div className="absolute inset-0 bg-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                       <span className="ml-2 group-hover:translate-x-1 transition">
                         →

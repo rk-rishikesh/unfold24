@@ -23,6 +23,7 @@ const DashboardPage = () => {
   const { createWallet } = useOkto();
   const [wallets, setWallets] = useState("");
   const [bal, setBal] = useState(0);
+  const [bank, setBank] = useState(false);
   const [pos, setPosition] = useState(0);
   const [error, setError] = useState(null);
   const [activeSection, setActiveSection] = useState(null);
@@ -386,8 +387,12 @@ const DashboardPage = () => {
       const result = await contract.getPlayerCurrency(wallets);
       const pos = await contract.getPlayerPosition(wallets);
       console.log("Hello: ", pos);
+      setCard(carddata.cards[pos]);
+      if (result <= 800) {
+        setBank(true);
+      }
       setPosition(pos);
-      console.log("cd",result);
+      console.log("cd", result);
       setBal(result);
       setData(result);
     } catch (err) {
@@ -399,13 +404,12 @@ const DashboardPage = () => {
   };
 
   useEffect(() => {
-    setCard(carddata.cards[diceRoll]);
+    setCard(carddata.cards[pos]);
     fetchWallets();
     readFromContract();
   }, []);
 
   useEffect(() => {
-    setCard(carddata.cards[diceRoll]);
     if (remainingTime > 0) {
       const timer = setInterval(() => {
         setRemainingTime((prev) => prev - 1);
@@ -668,6 +672,22 @@ const DashboardPage = () => {
         </div>
       </div>
 
+      {bank && <div className="absolute top-24 left-5 max-w-[300px] p-2 bg-indigo-800 rounded-full items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex">
+        <span className="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">
+          BANK AI AGENT
+        </span>
+        <span className="font-semibold mr-2 text-left flex-auto">
+          Loan Available
+        </span>
+        <svg
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+          class="fill-current opacity-75 h-4 w-4"
+        >
+          <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z"></path>
+        </svg>
+      </div>}
+
       <div
         className="absolute bottom-10 left-5 
         bg-gradient-to-br from-indigo-800 to-purple-900 
@@ -703,10 +723,8 @@ const DashboardPage = () => {
             <button
               onClick={() => readFromContract()}
               className="absolute top-2 left-2 text-white hover:bg-indigo-600 rounded-full p-1 transition-colors"
-            >
-              
-            </button>
-           
+            ></button>
+
             <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-600">
               {bal.toLocaleString()}
             </span>
@@ -717,16 +735,13 @@ const DashboardPage = () => {
             <button
               onClick={() => readFromContract()}
               className="absolute top-2 left-2 text-white hover:bg-indigo-600 rounded-full p-1 transition-colors"
-            >
-              
-            </button>
-           
+            ></button>
+
             <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-600">
               {pos.toLocaleString()}
             </span>
             <span className="block text-sm text-gray-300 mt-1">Position</span>
           </div>
-          
         </div>
       </div>
       {!showMintCard && (

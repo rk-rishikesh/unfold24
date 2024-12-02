@@ -43,10 +43,8 @@ const LandingPage = ({ setAuthToken, authToken, handleLogout }) => {
         Your browser does not support the video tag.
       </video>
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-white">
-        <h1 className="text-4xl font-bold">Welcome to React</h1>
-        <p className="mt-4 text-lg">
-          This is an example of a video background in React with Tailwind CSS.
-        </p>
+        <h1 className="text-4xl font-bold">Bull Run</h1>
+        <p className="mt-4 text-lg">Stay Bullish, Play Stylish!</p>
         {!authToken ? (
           <div>
             <a

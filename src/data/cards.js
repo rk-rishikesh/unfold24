@@ -1,4 +1,4 @@
-const data = {
+const carddata = {
   "cards": [
     {
       "id": 0,
@@ -20,7 +20,7 @@ const data = {
       "id": 2,
       "type": "Jail Card",
       "name": "Caught in Protest",
-      "description": "Detained during a city-wide protest.",
+      "description": "Detained during a city-wide protest. Pay 500",
       "image": "/images/jail.jpg",
       "rent": 500
     },
@@ -36,7 +36,7 @@ const data = {
       "id": 4,
       "type": "Jail Card",
       "name": "Caught in Protest",
-      "description": "Detained during a city-wide protest.",
+      "description": "Detained during a city-wide protest. Pay 500",
       "image": "/images/jail.jpg",
       "rent": 500
     },
@@ -68,7 +68,7 @@ const data = {
         "id": 8,
         "type": "Jail Card",
         "name": "Caught in Protest",
-        "description": "Detained during a city-wide protest.",
+        "description": "Detained during a city-wide protest. Pay 500",
         "image": "/images/jail.jpg",
         "rent": 500
       },
@@ -79,9 +79,17 @@ const data = {
       "description": "Acquire a bustling mall known for its shopping and events.",
       "image": "/images/pheonix.jpg",
       "rent": 95
+    },
+    {
+      "id":10,
+      "type": "",
+      "name": "",
+      "description": "",
+      "image": "/images/punctuation.jpg"
     }
+
   ]
 }
 
 
-export default data;
+export default carddata;
