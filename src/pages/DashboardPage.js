@@ -474,69 +474,7 @@ const DashboardPage = () => {
     setShowCardDetails(true);
   };
 
-  const monopolyLocations = [
-    {
-      type: "loc",
-      name: "Bengaluru Marriott Hotel Whitefield",
-      coordinates: [77.72850028345637, 12.979162217880553],
-    },
-    {
-      type: "loc",
-      name: "Sri Sathya Sai Institute of Higher Medical Sciences",
-      coordinates: [77.72927102316055, 12.981543699078502],
-    },
-    {
-      type: "loc",
-      name: "Optique",
-      coordinates: [77.72875864093628, 12.979551689963426],
-    },
-
-    {
-      type: "loc",
-      name: "Bank Of India",
-      coordinates: [77.73029243415138, 12.979057168410783],
-    },
-
-    {
-      type: "loc",
-      name: "TCS",
-      coordinates: [77.72758747094632, 12.97787570675477],
-    },
-
-    {
-      type: "loc",
-      name: "SEZ Bhavan",
-      coordinates: [77.72644614657483, 12.97986740928199],
-    },
-
-    {
-      type: "loc",
-      name: "New Udupi Delicacy Veg",
-      coordinates: [77.72704748905618, 12.98001557758769],
-    },
-    {
-      type: "loc",
-      name: "Schneider Electric India Private Limited",
-      coordinates: [77.72848951096566, 12.985931001136603],
-    },
-    {
-      type: "loc",
-      name: "Vydehi Girls Hostel",
-      coordinates: [77.7300684148707, 12.978039577664617],
-    },
-    {
-      type: "loc",
-      name: "Sowmya Residency",
-      coordinates: [77.73079510283848, 12.978516184123382],
-    },
-    {
-      type: "loc",
-      name: "Sowmya Residency",
-      coordinates: [77.73143029725426, 12.978578927153732],
-    },
-  ];
-
-  console.log(monopolyLocations);
+  const monopolyLocations = carddata.cards;
 
   const rollDiceAndMove = () => {
     if (rolling) return;
@@ -644,11 +582,53 @@ const DashboardPage = () => {
       loc: "/images/club.png",
     };
 
-    const iconUrl = icons[placeType] || "/images/mystery.png";
+    const iconUrl = icons[placeType] || "/images/club.png";
 
     markerElement.style.backgroundImage = `url('${iconUrl}')`;
 
     return markerElement;
+  };
+
+  const handleLoanAccept = async () => {
+    setIsLoading(true);
+    try {
+      const Reqbody = {
+        model: "meta-llama/Meta-Llama-3-8B-Instruct-Turbo",
+        messages: [
+          {
+            role: "user",
+            content:
+              "The player wants to use Bank to get loan, the max loan value is 500, the player has 1 property, how much loan can the player get based on the property count whose base value is 100 and rent 250. Just give me the final value in integers no text",
+          },
+        ],
+      };
+
+      const response = await fetch(
+        "https://dev.beyondnetwork.xyz/api/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "x-api-key": "7b4a2c8e-5678-8765-9d2f-1a3b5c7e9d8f",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(Reqbody),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Loan application failed");
+      }
+
+      const data = await response.json();
+      console.log(data.id);
+      if (data && data.choices && data.choices[0]?.message?.content) {
+        setShowLoanCard(true);
+      }
+    } catch (error) {
+      console.error("Loan application error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -677,16 +657,16 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      <div
-        className="absolute top-28 left-5 max-w-[300px] p-2 bg-indigo-800 rounded-full items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex cursor-pointer"
-        onClick={handleLoanClick}
-      >
+      <div className="absolute top-28 left-5 max-w-[300px] p-2 bg-indigo-800 rounded-full items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex cursor-pointer">
         <span
           className={`font-semibold mr-2 text-left flex-auto text-sm ${
             !showLoanCard
               ? "bg-indigo-500 rounded-full px-2 py-1 text-white"
               : "text-indigo-100"
           }`}
+          onClick={() => {
+            setShowLoanCard(false);
+          }}
         >
           BANK AI AGENT
         </span>
@@ -696,6 +676,7 @@ const DashboardPage = () => {
               ? "bg-indigo-500 rounded-full px-2 py-1 text-white"
               : "text-indigo-100"
           }`}
+          onClick={handleLoanAccept}
         >
           Loan Available
         </span>
@@ -749,22 +730,14 @@ const DashboardPage = () => {
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                     <polyline points="22 4 12 14.01 9 11.01"></polyline>
                   </svg>
-                  Interest Rate &nbsp;
-                </span>
-                <span className="text-green-300 font-bold text-xl">
-                  6.5% APR
+                  Powered by bullieverse beyond API.
                 </span>
               </div>
             </div>
           </div>
 
           <div className="mt-4 flex space-x-2">
-            <button
-              className="text-center flex-1 bg-yellow-400 text-purple-900 py-3 rounded-lg font-bold hover:bg-yellow-500 transition-colors uppercase tracking-wider shadow-lg"
-              onClick={() => {
-                /* Add loan application logic */
-              }}
-            >
+            <button className="text-center flex-1 bg-yellow-400 text-purple-900 py-3 rounded-lg font-bold hover:bg-yellow-500 transition-colors uppercase tracking-wider shadow-lg">
               Accept
             </button>
             <button

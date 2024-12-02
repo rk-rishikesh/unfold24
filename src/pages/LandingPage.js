@@ -32,7 +32,7 @@ const LandingPage = ({ setAuthToken, authToken, handleLogout }) => {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="relative w-full h-screen overflow-hidden bg-gradient-to-b from-black to-gray-900">
       <video
         className="absolute top-0 left-0 w-full h-full object-cover"
         autoPlay
@@ -42,13 +42,19 @@ const LandingPage = ({ setAuthToken, authToken, handleLogout }) => {
         <source src="/videos/opener.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white">
-        <h1 className="text-4xl font-bold">Bull Run</h1>
-        <p className="mt-4 text-lg">Stay Bullish, Play Stylish!</p>
+
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white space-y-6">
+        <h1 className="text-5xl md:text-6xl font-extrabold text-gradient bg-clip-text text-transparent bg-gradient-to-r from-[#F44336] via-[#ccd8f3] to-[#EF5350] text-shadow-lg">
+          Bull Run
+        </h1>
+        <p className="text-lg md:text-xl font-semibold opacity-90 text-gray-800">
+          Stay Bullish, Play Stylish!
+        </p>
+
         {!authToken ? (
-          <div>
+          <div className="mt-8">
             <a
-              class="text-black items-center inline-flex bg-white border-2 border-black duration-200 ease-in-out focus:outline-none hover:bg-black hover:shadow-none hover:text-white justify-center rounded-xl shadow-[5px_5px_black] text-center transform transition w-full lg:px-8 lg:py-4 lg:text-4xl px-4 py-2"
+              className="inline-flex items-center justify-center bg-gradient-to-r from-[#F44336] via-[#ccd8f3] to-[#EF5350] text-white text-lg font-semibold rounded-xl shadow-xl px-8 py-4 transform transition duration-200 ease-in-out hover:bg-gradient-to-l hover:from-green-600 hover:via-blue-600 hover:to-purple-600 hover:scale-105"
               href="#"
             >
               <GoogleLogin
@@ -64,9 +70,14 @@ const LandingPage = ({ setAuthToken, authToken, handleLogout }) => {
             </a>
           </div>
         ) : (
-          <button onClick={onLogoutClick}>
-            <button class="explore">Logout</button>
-          </button>
+          <div className="mt-8">
+            <button
+              onClick={onLogoutClick}
+              className="explore bg-black text-white px-6 py-3 text-xl font-semibold rounded-xl shadow-xl transition duration-200 ease-in-out hover:bg-gray-800 hover:scale-105"
+            >
+              Logout
+            </button>
+          </div>
         )}
       </div>
     </div>

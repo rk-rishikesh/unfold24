@@ -1,95 +1,104 @@
 const carddata = {
-  "cards": [
+  cards: [
     {
-      "id": 0,
-      "type": "Weather Alert",
-      "name": "Heavy Rains",
-      "description": "Pay rent to nearest location",
-      "image": "/images/rain.jpg",
-      "rent": 100
+      id: 0,
+      type: "Weather Alert",
+      name: "Heavy Rains",
+      description: "Pay rent to nearest location",
+      image: "/images/rain.jpg",
+      rent: 100,
+      coordinates: [77.72850028345637, 12.979162217880553],
     },
     {
-      "id": 1,
-      "type": "Property Card",
-      "name": "Marriott Hotel Whitefield",
-      "description": "Own a luxurious property in the heart of Whitefield.",
-      "image": "/images/hotelMarriot.jpg",
-      "rent": 100
+      id: 1,
+      type: "Property Card",
+      name: "Marriott Hotel Whitefield",
+      description: "Own a luxurious property in the heart of Whitefield.",
+      image: "/images/hotelMarriot.jpg",
+      rent: 100,
+      coordinates: [77.72927102316055, 12.981543699078502],
     },
     {
-      "id": 2,
-      "type": "Jail Card",
-      "name": "Caught in Protest",
-      "description": "Detained during a city-wide protest. Pay 500",
-      "image": "/images/jail.jpg",
-      "rent": 500
+      id: 2,
+      type: "Jail Card",
+      name: "Caught in Protest",
+      description: "Detained during a city-wide protest. Pay 500",
+      image: "/images/jail.jpg",
+      rent: 500,
+      coordinates: [77.73029243415138, 12.979057168410783],
     },
     {
-      "id": 3,
-      "type": "Property Card",
-      "name": "Vivanta by Taj Whitefield",
-      "description": "Acquire a prestigious property located near IT hubs.",
-      "image": "/images/taj.jpg",
-      "rent": 200
+      id: 3,
+      type: "Property Card",
+      name: "Vivanta by Taj Whitefield",
+      description: "Acquire a prestigious property located near IT hubs.",
+      image: "/images/taj.jpg",
+      rent: 200,
+      coordinates: [77.72758747094632, 12.97787570675477],
     },
     {
-      "id": 4,
-      "type": "Jail Card",
-      "name": "Caught in Protest",
-      "description": "Detained during a city-wide protest. Pay 500",
-      "image": "/images/jail.jpg",
-      "rent": 500
+      id: 4,
+      type: "Jail Card",
+      name: "Caught in Protest",
+      description: "Detained during a city-wide protest. Pay 500",
+      image: "/images/jail.jpg",
+      rent: 500,
+      coordinates: [77.72644614657483, 12.97986740928199],
     },
     {
-      "id": 5,
-      "type": "Property Card",
-      "name": "Sheraton Grand Bengaluru",
-      "description": "Claim an iconic luxury hotel in Whitefield.",
-      "image": "/images/taj.jpg",
-      "rent": 50
+      id: 5,
+      type: "Property Card",
+      name: "Sheraton Grand Bengaluru",
+      description: "Claim an iconic luxury hotel in Whitefield.",
+      image: "/images/taj.jpg",
+      rent: 50,
+      coordinates: [77.72704748905618, 12.98001557758769],
     },
     {
-        "id": 6,
-        "type": "Traffic Jam",
-        "name": "Traffic Jam of Banglore",
-        "description": "You are stuck in traffic.",
-        "image": "/images/traffic.jpg",
-        "rent": 500
-      },
-    {
-      "id": 7,
-      "type": "Property Card",
-      "name": "Rameshawaram Cafe",
-      "description": "Invest in a prime cafe for Bengaluru.",
-      "image": "/images/rameshwaram.jpg",
-      "rent": 90
+      id: 6,
+      type: "Traffic Jam",
+      name: "Traffic Jam of Banglore",
+      description: "You are stuck in traffic.",
+      image: "/images/traffic.jpg",
+      rent: 500,
+      coordinates: [77.72848951096566, 12.985931001136603],
     },
     {
-        "id": 8,
-        "type": "Jail Card",
-        "name": "Caught in Protest",
-        "description": "Detained during a city-wide protest. Pay 500",
-        "image": "/images/jail.jpg",
-        "rent": 500
-      },
-    {
-      "id": 9,
-      "type": "Property Card",
-      "name": "Phoenix Marketcity",
-      "description": "Acquire a bustling mall known for its shopping and events.",
-      "image": "/images/pheonix.jpg",
-      "rent": 95
+      id: 7,
+      type: "Property Card",
+      name: "Rameshawaram Cafe",
+      description: "Invest in a prime cafe for Bengaluru.",
+      image: "/images/rameshwaram.jpg",
+      rent: 90,
+      coordinates: [77.7300684148707, 12.978039577664617],
     },
     {
-      "id":10,
-      "type": "",
-      "name": "",
-      "description": "",
-      "image": "/images/punctuation.jpg"
-    }
-
-  ]
-}
-
+      id: 8,
+      type: "Jail Card",
+      name: "Caught in Protest",
+      description: "Detained during a city-wide protest. Pay 500",
+      image: "/images/jail.jpg",
+      rent: 500,
+      coordinates: [77.73143029725426, 12.978578927153732],
+    },
+    {
+      id: 9,
+      type: "Property Card",
+      name: "Phoenix Marketcity",
+      description: "Acquire a bustling mall known for its shopping and events.",
+      image: "/images/pheonix.jpg",
+      rent: 95,
+      coordinates: [77.73079510283848, 12.978516184123382],
+    },
+    {
+      id: 10,
+      type: "",
+      name: "",
+      description: "",
+      image: "/images/punctuation.jpg",
+      coordinates: [77.73143029725426, 12.978578927153732],
+    },
+  ],
+};
 
 export default carddata;
